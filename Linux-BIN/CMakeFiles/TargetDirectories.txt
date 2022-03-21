@@ -1,0 +1,8 @@
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/OcrLiteOnnx.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/benchmark.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/edit_cache.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/rebuild_cache.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/list_install_components.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/install.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/install/local.dir
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/CMakeFiles/install/strip.dir

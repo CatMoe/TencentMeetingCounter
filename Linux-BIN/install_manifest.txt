@@ -1,0 +1,2 @@
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/install/bin/OcrLiteOnnx
+/mnt/a/DOCUMENTS/CatMoe/OcrLiteOnnx/Linux-BIN/install/bin/benchmark
