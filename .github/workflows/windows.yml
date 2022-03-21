@@ -21,6 +21,10 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     
+    - name: Check Version
+      shell: cmd
+      run: cmake --version
+    
     - name: Build
       shell: cmd
-      run: ./build-default.bat
+      run: build-default.bat
