@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     int totalcount = 1;
     char ch;
     while(ch = getch()) {
-        printf(ch);
+        println(ch);
         if(ch == 108) {
             Screenshot screenshot;
             Mat img = screenshot.getScreenshot();
