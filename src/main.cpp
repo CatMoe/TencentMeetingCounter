@@ -7,6 +7,7 @@
 #include "OcrUtils.h"
 #include <stdio.h>
 #include <conio.h>
+#include "ScreenShot.cpp"
 
 void printHelp(FILE *out, char *argv0) {
     fprintf(out, " ------- Usage -------\n");
