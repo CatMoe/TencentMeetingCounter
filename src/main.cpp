@@ -68,7 +68,7 @@ int OCR()
     bool mostAngle = true;
     int flagMostAngle = 1;
     modelsDir = "./models";
-    imgDir = "./screenshots"
+    imgDir = "./screenshots";
 
     int opt;
     int optionIndex = 0;
