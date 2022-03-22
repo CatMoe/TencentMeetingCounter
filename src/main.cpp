@@ -122,6 +122,8 @@ int main(int argc, char **argv) {
 //                printf("other option %c :%s\n", opt, optarg);
 //        }
 //    }
+
+
     if (modelDetPath.empty()) {
         modelDetPath = modelsDir + "/" + "dbnet.onnx";
     }
