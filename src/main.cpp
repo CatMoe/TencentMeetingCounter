@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     int totalcount = 1;
     char ch;
     while(ch = getch()) {
-        println(ch);
+        std::cout << ch << std::endl;
         if(ch == 108) {
             Screenshot screenshot;
             Mat img = screenshot.getScreenshot();
