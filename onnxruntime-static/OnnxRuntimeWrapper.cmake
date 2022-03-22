@@ -13,4 +13,5 @@ elseif (UNIX)
     message("配置Linux OnnxRuntime 路径: ${CMAKE_CURRENT_LIST_DIR}/linux")
     set(OnnxRuntime_DIR "${CMAKE_CURRENT_LIST_DIR}/linux")
 endif ()
-
+message("${CMAKE_CURRENT_LIST_DIR}")
+message("${OnnxRuntime_DIR}")

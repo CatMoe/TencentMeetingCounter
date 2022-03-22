@@ -53,6 +53,7 @@ endif ()
 
 # OnnxRuntime
 include(${CMAKE_CURRENT_SOURCE_DIR}/onnxruntime-static/OnnxRuntimeWrapper.cmake)
+message("${OnnxRuntime_DIR}")
 find_package(OnnxRuntime REQUIRED)
 if (OnnxRuntime_FOUND)
     message(STATUS "OnnxRuntime_LIBS: ${OnnxRuntime_LIBS}")
