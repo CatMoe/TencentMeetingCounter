@@ -7,7 +7,10 @@
 #include "OcrUtils.h"
 #include <stdio.h>
 #include <conio.h>
-#include "ScreenShot.cpp"
+#include "ScreenShot.h"
+
+
+using namespace cv;
 
 void printHelp(FILE *out, char *argv0) {
     fprintf(out, " ------- Usage -------\n");
@@ -130,7 +133,9 @@ int main(int argc, char **argv) {
     char ch;
     while(ch = getch()) {
         if(ch == 108) {
-            SaveScreenShot(totalcount);
+            ScreenShot screenshot;
+            Mat img = screenshot.getScreenshot();
+            imwrite("screenshot.jpg", img);
         } else if (ch == 27) {
             break;
         }

@@ -1,92 +1,67 @@
-#pragma once
-#include <Windows.h>
+#include "Screenshot.h"
+using cv::Mat;
 
-/**
- * Create a Bitmap file header..
- *
- * @param hwindowDC : window handle.
- * @param widht	    : image width.
- * @param height    : image height.
- *
- * @return Bitmap header.
- */
-BITMAPINFOHEADER createBitmapHeader(int width, int height)
+Screenshot::Screenshot()
 {
-    BITMAPINFOHEADER  bi;
+    double zoom = getZoom();
+    m_width = GetSystemMetrics(SM_CXSCREEN) * zoom;
+    m_height = GetSystemMetrics(SM_CYSCREEN) * zoom;
+    m_screenshotData = new char[m_width * m_height * 4];
+    memset(m_screenshotData, 0, m_width);
 
-    // create a bitmap
-    bi.biSize = sizeof(BITMAPINFOHEADER);
-    bi.biWidth = width;
-    bi.biHeight = -height;  //this is the line that makes it draw upside down or not
-    bi.biPlanes = 1;
-    bi.biBitCount = 32;
-    bi.biCompression = BI_RGB;
-    bi.biSizeImage = 0;
-    bi.biXPelsPerMeter = 0;
-    bi.biYPelsPerMeter = 0;
-    bi.biClrUsed = 0;
-    bi.biClrImportant = 0;
+    // 获取屏幕 DC
+    m_screenDC = GetDC(NULL);
+    m_compatibleDC = CreateCompatibleDC(m_screenDC);
 
-    return bi;
+    // 创建位图
+    m_hBitmap = CreateCompatibleBitmap(m_screenDC, m_width, m_height);
+    SelectObject(m_compatibleDC, m_hBitmap);
 }
 
-/**
- * Capture a screen window as a matrix.
- *
- * @param hwnd : window handle.
- *
- * @return Mat (Mat of the captured image)
- */
-cv::Mat captureScreenMat(HWND hwnd)
+/* 获取整个屏幕的截图 */
+Mat Screenshot::getScreenshot()
 {
-    cv::Mat src;
+    // 得到位图的数据
+    BitBlt(m_compatibleDC, 0, 0, m_width, m_height, m_screenDC, 0, 0, SRCCOPY);
+    GetBitmapBits(m_hBitmap, m_width * m_height * 4, m_screenshotData);
 
-    // get handles to a device context (DC)
-    HDC hwindowDC = GetDC(hwnd);
-    HDC hwindowCompatibleDC = CreateCompatibleDC(hwindowDC);
-    SetStretchBltMode(hwindowCompatibleDC, COLORONCOLOR);
+    // 创建图像
+    Mat screenshot(m_height, m_width, CV_8UC4, m_screenshotData);
 
-    // define scale, height and width
-    int scale = 1;
-    int screenx = GetSystemMetrics(SM_XVIRTUALSCREEN);
-    int screeny = GetSystemMetrics(SM_YVIRTUALSCREEN);
-    int width = GetSystemMetrics(SM_CXVIRTUALSCREEN);
-    int height = GetSystemMetrics(SM_CYVIRTUALSCREEN);
-
-    // create mat object
-    src.create(height, width, CV_8UC4);
-
-    // create a bitmap
-    HBITMAP hbwindow = CreateCompatibleBitmap(hwindowDC, width, height);
-    BITMAPINFOHEADER bi = createBitmapHeader(width, height);
-
-    // use the previously created device context with the bitmap
-    SelectObject(hwindowCompatibleDC, hbwindow);
-
-    // copy from the window device context to the bitmap device context
-    StretchBlt(hwindowCompatibleDC, 0, 0, width, height, hwindowDC, screenx, screeny, width, height, SRCCOPY);  //change SRCCOPY to NOTSRCCOPY for wacky colors !
-    GetDIBits(hwindowCompatibleDC, hbwindow, 0, height, src.data, (BITMAPINFO*)&bi, DIB_RGB_COLORS);            //copy from hwindowCompatibleDC to hbwindow
-
-    // avoid memory leak
-    DeleteObject(hbwindow);
-    DeleteDC(hwindowCompatibleDC);
-    ReleaseDC(hwnd, hwindowDC);
-
-    return src;
+    return screenshot;
 }
 
-void SaveScreenShot(int number)
+/** @brief 获取指定范围的屏幕截图
+ * @param x 图像左上角的 X 坐标
+ * @param y 图像左上角的 Y 坐标
+ * @param width 图像宽度
+ * @param height 图像高度
+ */
+Mat Screenshot::getScreenshot(int x, int y, int width, int height)
 {
-    // capture image
-    HWND hwnd = GetDesktopWindow();
-    cv::Mat src = captureScreenMat(hwnd);
+    Mat screenshot = getScreenshot();
+    return screenshot(cv::Rect(x, y, width, height));
+}
 
-    // encode result
-    std::vector<uchar> buf;
-    cv::imencode(".png", src, buf);
+/* 获取屏幕缩放值 */
+double Screenshot::getZoom()
+{
+    // 获取窗口当前显示的监视器
+    HWND hWnd = GetDesktopWindow();
+    HMONITOR hMonitor = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
 
-    // save img
-    cv::imwrite(typeToString(number) + ".png", src);
+    // 获取监视器逻辑宽度
+    MONITORINFOEX monitorInfo;
+    monitorInfo.cbSize = sizeof(monitorInfo);
+    GetMonitorInfo(hMonitor, &monitorInfo);
+    int cxLogical = (monitorInfo.rcMonitor.right - monitorInfo.rcMonitor.left);
 
-    buf.clear();
+    // 获取监视器物理宽度
+    DEVMODE dm;
+    dm.dmSize = sizeof(dm);
+    dm.dmDriverExtra = 0;
+    EnumDisplaySettings(monitorInfo.szDevice, ENUM_CURRENT_SETTINGS, &dm);
+    int cxPhysical = dm.dmPelsWidth;
+
+    return cxPhysical * 1.0 / cxLogical;
 }

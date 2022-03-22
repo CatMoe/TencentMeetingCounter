@@ -5,9 +5,6 @@
 #include <onnxruntime/core/session/onnxruntime_cxx_api.h>
 #include <opencv2/opencv.hpp>
 
-using namespace cv;
-using namespace std;
-
 class AngleNet {
 public:
     AngleNet();
