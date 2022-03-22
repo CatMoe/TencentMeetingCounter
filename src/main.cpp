@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
 //    }
     printf("按enter截图，按esc结束截图");
     int totalcount = 1;
-    char ch;
+    int ch;
     while(ch = getch()) {
         std::cout << ch << std::endl;
         if(ch == 108) {
