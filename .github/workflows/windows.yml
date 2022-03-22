@@ -34,5 +34,5 @@ jobs:
       with:
          name: windows
          path: |
-          win-BIN-Win32
-          win-BIN-x64
+          win-BIN-Win32/Release/OcrLiteOnnx.exe
+          win-BIN-x64/Release/OcrLiteOnnx.exe

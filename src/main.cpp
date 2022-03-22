@@ -5,6 +5,8 @@
 #include "version.h"
 #include "OcrLite.h"
 #include "OcrUtils.h"
+#include <stdio.h>
+#include <conio.h>
 
 void printHelp(FILE *out, char *argv0) {
     fprintf(out, " ------- Usage -------\n");
@@ -122,7 +124,16 @@ int main(int argc, char **argv) {
 //                printf("other option %c :%s\n", opt, optarg);
 //        }
 //    }
-
+    printf("按enter截图，按esc结束截图");
+    int totalcount = 1;
+    char ch;
+    while(ch = getch()) {
+        if(ch == 108) {
+            SaveScreenShot(totalcount);
+        } else if (ch == 27) {
+            break;
+        }
+    }
 
     if (modelDetPath.empty()) {
         modelDetPath = modelsDir + "/" + "dbnet.onnx";
