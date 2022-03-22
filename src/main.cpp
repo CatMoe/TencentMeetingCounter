@@ -27,7 +27,7 @@ LRESULT CALLBACK keyboard_hook(const int code, const WPARAM wParam, const LPARAM
               {
                 Screenshot screenshot;
                 Mat img = screenshot.getScreenshot();
-                imwrite("screenshot" + std::to_string(totalcount) + ".jpg", img);
+                imwrite("./screenshots/screenshot" + std::to_string(totalcount) + ".jpg", img);
                 totalcount++;
               } else if ( p->vkCode == VK_ESCAPE) {
                   OCR();
@@ -41,7 +41,7 @@ LRESULT CALLBACK keyboard_hook(const int code, const WPARAM wParam, const LPARAM
 
 int main(int argc, char **argv) {
     system("chcp 65001");
-    printf("按enter截图，按esc结束截图");
+    std::cout << "按enter截图，按esc结束截图" << std::endl;
 
     hHook = SetWindowsHookEx(WH_KEYBOARD_LL, keyboard_hook, NULL, 0);
 	if (hHook == NULL) {
@@ -68,6 +68,7 @@ int OCR()
     bool mostAngle = true;
     int flagMostAngle = 1;
     modelsDir = "./models";
+    imgDir = "./screenshots"
 
     int opt;
     int optionIndex = 0;
@@ -87,11 +88,11 @@ int OCR()
     if (keysPath.empty()) {
         keysPath = modelsDir + "/" + "keys.txt";
     }
-    bool hasTargetImgFile = isFileExists(imgPath);
-    if (!hasTargetImgFile) {
-        fprintf(stderr, "Target image not found: %s\n", imgPath.c_str());
-        return -1;
-    }
+    // bool hasTargetImgFile = isFileExists(imgPath);
+    // if (!hasTargetImgFile) {
+    //     fprintf(stderr, "Target image not found: %s\n", imgPath.c_str());
+    //     return -1;
+    // }
     bool hasModelDetFile = isFileExists(modelDetPath);
     if (!hasModelDetFile) {
         fprintf(stderr, "Model dbnet file not found: %s\n", modelDetPath.c_str());
@@ -127,9 +128,11 @@ int OCR()
 
     ocrLite.initModels(modelDetPath, modelClsPath, modelRecPath, keysPath);
 
-    OcrResult result = ocrLite.detect(imgDir.c_str(), imgName.c_str(), padding, maxSideLen,
+    for(int i = 1; i < totalcount; i++) {
+    OcrResult result = ocrLite.detect(imgDir.c_str(), ("screenshot" + std::to_string(i) + ".jpg").c_str(), padding, maxSideLen,
                                       boxScoreThresh, boxThresh, unClipRatio, doAngle, mostAngle);
     ocrLite.Logger("%s\n", result.strRes.c_str());
+    }
     return 1;
 }
 
