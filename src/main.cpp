@@ -15,13 +15,32 @@
 
 using namespace cv;
 
+
+HHOOK hHook{ NULL };
+
+LRESULT CALLBACK keyboard_hook(const int code, const WPARAM wParam, const LPARAM lParam) {
+	if (wParam == WM_KEYDOWN) {              
+        PKBDLLHOOKSTRUCT p = ( PKBDLLHOOKSTRUCT ) lParam;
+              if ( p->vkCode == VK_ENTER)
+              {
+                Screenshot screenshot;
+                Mat img = screenshot.getScreenshot();
+                imwrite("screenshot" + std::to_string(totalcount) + ".jpg", img);
+                totalcount++;
+              } else if ( p->vkCode == VK_ESC) {
+                  OCR();
+                  UnhookWindowsHookEx(hHook);
+              }
+	}
+
+	return CallNextHookEx(hHook, code, wParam, lParam);
+}
+
+
+
 int totalcount = 1;
 
 int main(int argc, char **argv) {
-//    if (argc <= 1) {
-//        printHelp(stderr, argv[0]);
-//        return -1;
-//    }
     system("chcp 65001");
     printf("按enter截图，按esc结束截图");
 
@@ -113,25 +132,6 @@ void OCR() {
     ocrLite.Logger("%s\n", result.strRes.c_str());
 }
 
-HHOOK hHook{ NULL };
-
-LRESULT CALLBACK keyboard_hook(const int code, const WPARAM wParam, const LPARAM lParam) {
-	if (wParam == WM_KEYDOWN) {              
-        PKBDLLHOOKSTRUCT p = ( PKBDLLHOOKSTRUCT ) lParam;
-              if ( p->vkCode == VK_ENTER)
-              {
-                Screenshot screenshot;
-                Mat img = screenshot.getScreenshot();
-                imwrite("screenshot" + std::to_string(totalcount) + ".jpg", img);
-                totalcount++;
-              } else if ( p->vkCode == VK_ESC) {
-                  OCR();
-                  UnhookWindowsHookEx(hHook);
-              }
-	}
-
-	return CallNextHookEx(hHook, code, wParam, lParam);
-}
 
 
 
