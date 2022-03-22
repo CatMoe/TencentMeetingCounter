@@ -9,6 +9,7 @@
 #include <conio.h>
 #include "ScreenShot.h"
 #include <iostream>
+#include <Windows.h>
 
 
 
