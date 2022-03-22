@@ -113,6 +113,8 @@ int OCR()
         fprintf(stderr, "keys file not found: %s\n", keysPath.c_str());
         return -1;
     }
+    for(int i = 1; i < totalcount; i++) {
+        imgName = "screenshot" + std::to_string(i) + ".jpg";
     OcrLite ocrLite;
     ocrLite.setNumThread(numThread);
     ocrLite.initLogger(
@@ -128,8 +130,8 @@ int OCR()
 
     ocrLite.initModels(modelDetPath, modelClsPath, modelRecPath, keysPath);
 
-    for(int i = 1; i < totalcount; i++) {
-    OcrResult result = ocrLite.detect(imgDir.c_str(), ("screenshot" + std::to_string(i) + ".jpg").c_str(), padding, maxSideLen,
+    
+    OcrResult result = ocrLite.detect(imgDir.c_str(), imgName.c_str(), padding, maxSideLen,
                                       boxScoreThresh, boxThresh, unClipRatio, doAngle, mostAngle);
     ocrLite.Logger("%s\n", result.strRes.c_str());
     }
