@@ -1,5 +1,7 @@
 #ifndef __JNI__
 #ifndef __CLIB__
+#include "stdafx.h"
+
 #include <cstdio>
 #include "main.h"
 #include "version.h"
