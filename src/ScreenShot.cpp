@@ -1,8 +1,6 @@
 #pragma once
 #include <Windows.h>
 
-using namespace cv;
-
 /**
  * Create a Bitmap file header..
  *
@@ -39,9 +37,9 @@ BITMAPINFOHEADER createBitmapHeader(int width, int height)
  *
  * @return Mat (Mat of the captured image)
  */
-Mat captureScreenMat(HWND hwnd)
+cv::Mat captureScreenMat(HWND hwnd)
 {
-    Mat src;
+    cv::Mat src;
 
     // get handles to a device context (DC)
     HDC hwindowDC = GetDC(hwnd);
@@ -81,7 +79,7 @@ void SaveScreenShot(int number)
 {
     // capture image
     HWND hwnd = GetDesktopWindow();
-    Mat src = captureScreenMat(hwnd);
+    cv::Mat src = captureScreenMat(hwnd);
 
     // encode result
     std::vector<uchar> buf;
