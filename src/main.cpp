@@ -32,7 +32,7 @@ int main(int argc, char **argv) {
 //        return -1;
 //    }
     system("chcp 65001");
-    
+
     std::string modelsDir, modelDetPath, modelClsPath, modelRecPath, keysPath;
     std::string imgPath, imgDir, imgName;
     int numThread = 4;
@@ -134,7 +134,7 @@ int main(int argc, char **argv) {
     int totalcount = 1;
     char ch;
     while(ch = getch()) {
-        printf("ch");
+        printf(ch);
         if(ch == 108) {
             Screenshot screenshot;
             Mat img = screenshot.getScreenshot();
