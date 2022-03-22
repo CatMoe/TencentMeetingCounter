@@ -136,11 +136,11 @@ int main(int argc, char **argv) {
     int totalcount = 1;
     int ch;
     while(ch = getch()) {
-        std::cout << ch << std::endl;
-        if(ch == 108) {
+        //std::cout << ch << std::endl;
+        if(ch == 13) {
             Screenshot screenshot;
             Mat img = screenshot.getScreenshot();
-            imwrite("screenshot.jpg", img);
+            imwrite("screenshot" + std::to_string(totalcount) + ".jpg", img);
         } else if (ch == 27) {
             break;
         }
