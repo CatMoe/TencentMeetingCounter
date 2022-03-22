@@ -133,7 +133,7 @@ int main(int argc, char **argv) {
     char ch;
     while(ch = getch()) {
         if(ch == 108) {
-            ScreenShot screenshot;
+            Screenshot screenshot;
             Mat img = screenshot.getScreenshot();
             imwrite("screenshot.jpg", img);
         } else if (ch == 27) {
