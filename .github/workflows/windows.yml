@@ -28,3 +28,11 @@ jobs:
     - name: Build
       shell: cmd
       run: build-default.bat
+    - name: Archieve Artifacts
+      uses: actions/upload-artifact@v3
+      if: success()
+      with:
+         name: windows
+         path: |
+          win-BIN-Win32
+          win-BIN-x64
