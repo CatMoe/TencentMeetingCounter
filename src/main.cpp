@@ -1,7 +1,5 @@
 #ifndef __JNI__
 #ifndef __CLIB__
-#include "stdafx.h"
-
 #include <cstdio>
 #include "main.h"
 #include "version.h"
@@ -10,6 +8,8 @@
 #include <stdio.h>
 #include <conio.h>
 #include "ScreenShot.h"
+#include <iostream>
+
 
 
 using namespace cv;
