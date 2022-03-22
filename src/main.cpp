@@ -17,17 +17,19 @@ using namespace cv;
 
 
 HHOOK hHook{ NULL };
+int totalcount = 1;
+int OCR();
 
 LRESULT CALLBACK keyboard_hook(const int code, const WPARAM wParam, const LPARAM lParam) {
 	if (wParam == WM_KEYDOWN) {              
         PKBDLLHOOKSTRUCT p = ( PKBDLLHOOKSTRUCT ) lParam;
-              if ( p->vkCode == VK_ENTER)
+              if ( p->vkCode == VK_RETURN)
               {
                 Screenshot screenshot;
                 Mat img = screenshot.getScreenshot();
                 imwrite("screenshot" + std::to_string(totalcount) + ".jpg", img);
                 totalcount++;
-              } else if ( p->vkCode == VK_ESC) {
+              } else if ( p->vkCode == VK_ESCAPE) {
                   OCR();
                   UnhookWindowsHookEx(hHook);
               }
@@ -36,9 +38,6 @@ LRESULT CALLBACK keyboard_hook(const int code, const WPARAM wParam, const LPARAM
 	return CallNextHookEx(hHook, code, wParam, lParam);
 }
 
-
-
-int totalcount = 1;
 
 int main(int argc, char **argv) {
     system("chcp 65001");
@@ -53,7 +52,8 @@ int main(int argc, char **argv) {
     return 0;
 }
 
-void OCR() {
+int OCR() 
+{
     std::cout << "OCR STARTED" << std::endl;
     std::string modelsDir, modelDetPath, modelClsPath, modelRecPath, keysPath;
     std::string imgPath, imgDir, imgName;
@@ -130,6 +130,7 @@ void OCR() {
     OcrResult result = ocrLite.detect(imgDir.c_str(), imgName.c_str(), padding, maxSideLen,
                                       boxScoreThresh, boxThresh, unClipRatio, doAngle, mostAngle);
     ocrLite.Logger("%s\n", result.strRes.c_str());
+    return 1;
 }
 
 
